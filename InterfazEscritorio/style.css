@@ -1,0 +1,10 @@
+.ui-widget-content{
+    width: 150px; 
+    height: 150px; 
+    padding: 0.5em;
+}
+
+textarea{
+    width: 150px; 
+    height: 150px; 
+}
