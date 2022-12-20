@@ -1,10 +1,28 @@
+var $objects =  $( '.ui-state-default' );
+var $files = [];
+var $num = 1;
+for (const object of $objects) {
+    var $file = {
+      name : object.id,
+      posits : []
+    }
+    $files.push($file);
+}
+
+
 $( "button" ).click(function() {
   $( "#gallery" ).append( "<li class='ui-widget-content ui-corner-tr ui-draggable ui-draggable-handle'><p class='ui-widget-header'>" + $('.text').val() + "</p></li>" );
+  var $posit = {
+    id : 'posit' + $num,
+    text : $('.text').val()
+  }
+  $num++;
 $( function() {
   
     // There's the gallery and the trash
     var $gallery = $( "#gallery" ),
       $trash = $( "#trash" );
+    var  $trash2 = $( "#trash2" );
  
     // Let the gallery items be draggable
     $( "li", $gallery ).draggable({
@@ -25,10 +43,21 @@ $( function() {
         deleteImage( ui.draggable );
       }
     });
+
+    $trash2.droppable({
+      accept: "#gallery > li",
+      classes: {
+        "ui-droppable-active": "ui-state-highlight"
+      },
+      drop: function( event, ui ) {
+        deleteImage2( ui.draggable );
+      }
+    });
  
     // Let the gallery be droppable as well, accepting items from the trash
     $gallery.droppable({
       accept: "#trash li",
+      accept: "#trash2 li",
       classes: {
         "ui-droppable-active": "custom-state-active"
       },
@@ -36,10 +65,28 @@ $( function() {
         recycleImage( ui.draggable );
       }
     });
- 
+
     // Image deletion function
     var recycle_icon = "<a href='link/to/recycle/script/when/we/have/js/off' title='Recycle this image' class='ui-icon ui-icon-refresh'>Recycle image</a>";
     function deleteImage( $item ) {
+      $item.fadeOut(function() {
+        var $list = $( "ul", $trash ).length ?
+          $( "ul", $trash ) :
+          $( "<ul class='gallery ui-helper-reset'/>" ).appendTo( $trash );
+ 
+        $item.find( "a.ui-icon-trash" ).remove();
+        $files[0].posits.push($posit);
+        console.log($files);
+        $item.append( recycle_icon ).appendTo( $list ).fadeIn(function() {
+          $item
+            .animate({ width: "48px" })
+            .find( "img" )
+              .animate({ height: "36px" });
+        });
+      });
+    }
+
+    function deleteImage2( $item ) {
       $item.fadeOut(function() {
         var $list = $( "ul", $trash ).length ?
           $( "ul", $trash ) :
@@ -54,6 +101,7 @@ $( function() {
         });
       });
     }
+
  
     // Image recycle function
     var trash_icon = "<a href='link/to/trash/script/when/we/have/js/off' title='Delete this image' class='ui-icon ui-icon-trash'>Delete image</a>";

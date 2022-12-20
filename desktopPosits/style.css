@@ -11,6 +11,11 @@
   #trash p .ui-icon { float: left; }
   #trash .gallery p { display: none; }
 
+  #trash2 { float: right; width: 32%; min-height: 18em; padding: 1%; }
+  #trash2 p { line-height: 16px; margin: 0 0 0.4em; }
+  #trash2 p .ui-icon { float: left; }
+  #trash2 .gallery p { display: none; }
+
   textarea{
     width: 150px; 
     height: 150px; 
